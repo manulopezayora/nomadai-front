@@ -1,0 +1,9 @@
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "validation": {
+    "required": "This field is required"
+  }
+}

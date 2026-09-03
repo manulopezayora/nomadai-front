@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import NomadAIIcon from '@/modules/shared/icons/NomadAI.icon.vue';
 import NomadAITextIcon from '@/modules/shared/icons/NomadAIText.icon.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="logo">
     <NomadAIIcon width="100px" />
     <NomadAITextIcon />
-    <h2>Plan your perfect trip with AI</h2>
+    <h2>{{ t('auth.login.welcome') }}</h2>
   </div>
   <RouterView />
 </template>
