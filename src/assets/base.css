@@ -15,6 +15,7 @@
   --text-primary: #111d23;
   --text-secondary: #516161;
   --text-hint: #6e7977;
+  --text-white: #f8f8f8;
 
   --divider: #bec9c6;
 }
@@ -27,7 +28,7 @@
   --color-border: var(--primary);
   --color-border-hover: var(--secondary);
 
-  --bg-gradient-primary: linear-gradient(135deg, var(--color-teal-start), var(--color-teal-end));
+  --bg-gradient-primary: linear-gradient(135deg, #80cbc4, #26a69a);
 
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-backdrop-filter: blur(12px);

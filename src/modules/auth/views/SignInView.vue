@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
@@ -55,10 +56,9 @@ const handleSubmit = () => {
 
     <a href="#" class="forgot-link">{{ t('auth.form.forgotPassword') }}</a>
 
-    <!-- BaseButton.vue -->
-    <button type="submit" class="submit-btn">
+    <ButtonComponent :loading="false" :disabled="false">
       {{ t('auth.form.signIn') }}
-    </button>
+    </ButtonComponent>
   </form>
 </template>
 
@@ -92,33 +92,12 @@ const handleSubmit = () => {
   align-self: flex-end;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #0f6e56;
+  color: var(--primary);
   text-decoration: none;
   margin-top: -0.25rem;
 }
 
 .forgot-link:hover {
   text-decoration: underline;
-}
-
-/* Submit button */
-.submit-btn {
-  border: none;
-  border-radius: 12px;
-  padding: 0.9rem 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #ffffff;
-  cursor: pointer;
-  background: linear-gradient(135deg, #5dcaa5, #0f6e56);
-  transition: opacity 0.15s ease;
-}
-
-.submit-btn:hover {
-  opacity: 0.92;
-}
-
-.submit-btn:active {
-  transform: scale(0.99);
 }
 </style>
