@@ -37,7 +37,6 @@ const onTabChange = (value: string) => {
 
     <CardComponent>
       <TabsComponent :options="tabs" :model-value="activeTab" @update:model-value="onTabChange" />
-
       <RouterView />
     </CardComponent>
   </main>
