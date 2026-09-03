@@ -21,14 +21,14 @@ const activeIndex = computed(() =>
   ),
 );
 
-function updateIndicator() {
+const updateIndicator = () => {
   const activeEl = tabRefs.value[activeIndex.value];
   if (!activeEl) return;
   indicatorStyle.value = {
     left: `${activeEl.offsetLeft}px`,
     width: `${activeEl.offsetWidth}px`,
   };
-}
+};
 
 onMounted(() => nextTick(updateIndicator));
 watch(activeIndex, () => nextTick(updateIndicator));
