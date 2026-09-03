@@ -1,12 +1,20 @@
 <script setup lang="ts">
-defineProps<{
-  loading?: boolean;
-  disabled?: boolean;
-}>();
+withDefaults(
+  defineProps<{
+    type: 'submit' | 'button' | 'reset';
+    loading?: boolean;
+    disabled?: boolean;
+  }>(),
+  {
+    type: 'submit',
+    loading: false,
+    disabled: false,
+  },
+);
 </script>
 
 <template>
-  <button type="submit" class="button" :disabled="disabled || loading">
+  <button :type="type" class="button" :disabled="disabled || loading">
     <span v-if="loading" class="button__spinner" />
     <slot v-else />
   </button>

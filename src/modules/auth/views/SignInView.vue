@@ -5,8 +5,10 @@ import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
 import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAuthStore } from '../stores/auth.store';
 
 const { t } = useI18n();
+const authStore = useAuthStore();
 
 const form = reactive({
   email: '',
@@ -24,9 +26,15 @@ const validate = (): boolean => {
   return !errors.email && !errors.password;
 };
 
-const handleSubmit = () => {
-  if (!validate()) return;
-  // TODO:
+const handleSubmit = async () => {
+  // TODO: VAlidations
+  // if (!validate()) return;
+
+  const ok = await authStore.onSignIn({
+    email: form.email,
+    password: form.password,
+  });
+
   console.log('submit', { ...form });
 };
 </script>
@@ -56,7 +64,7 @@ const handleSubmit = () => {
 
     <a href="#" class="forgot-link">{{ t('auth.form.forgotPassword') }}</a>
 
-    <ButtonComponent :loading="false" :disabled="false">
+    <ButtonComponent type="submit" :loading="false" :disabled="false">
       {{ t('auth.form.signIn') }}
     </ButtonComponent>
   </form>
