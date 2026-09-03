@@ -1,10 +1,18 @@
+<script lang="ts" setup>
+interface Props {
+  width?: string | number;
+}
+withDefaults(defineProps<Props>(), {
+  width: '180px',
+});
+</script>
+
 <template>
   <svg
     version="1.0"
     xmlns="http://www.w3.org/2000/svg"
-    width="1800.000000pt"
-    height="597.000000pt"
-    viewBox="0 0 1800.000000 597.000000"
+    :width="width"
+    viewBox="0 0 1800 597"
     preserveAspectRatio="xMidYMid meet"
   >
     <g

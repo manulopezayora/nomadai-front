@@ -34,6 +34,7 @@
   --glass-border: 1px solid rgba(255, 255, 255, 0.3);
 
   --color-heading: var(--primary);
+  --color-logo: var(--secondary);
   --color-text: var(--text-primary);
 
   --section-gap: 160px;

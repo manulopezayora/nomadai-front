@@ -1,8 +1,27 @@
+<script setup lang="ts">
+import NomadAIIcon from '@/modules/shared/icons/NomadAI.icon.vue';
+import NomadAITextIcon from '@/modules/shared/icons/NomadAIText.icon.vue';
+</script>
+
 <template>
-  <div>PATATA</div>
+  <div class="logo">
+    <NomadAIIcon width="100px" />
+    <NomadAITextIcon />
+    <h2>Plan your perfect trip with AI</h2>
+  </div>
   <RouterView />
 </template>
 
-<script setup lang="ts"></script>
+<style scoped>
+.logo {
+  margin: 80px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-<style scoped></style>
+.logo svg {
+  color: var(--color-logo);
+}
+</style>
