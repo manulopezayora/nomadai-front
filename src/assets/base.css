@@ -39,6 +39,8 @@
 
   --shadow-color: 0 10px 30px rgba(0, 0, 0, 0.08);
   --section-gap: 160px;
+
+  --error-color: #e74c3c;
 }
 
 *,
