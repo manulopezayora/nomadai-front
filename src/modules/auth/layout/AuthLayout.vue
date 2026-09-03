@@ -1,13 +1,30 @@
 <script setup lang="ts">
 import CardComponent from '@/modules/shared/components/CardComponent.vue';
+import TabsComponent from '@/modules/shared/components/TabsComponent.vue';
 import NomadAIIcon from '@/modules/shared/icons/NomadAI.icon.vue';
 import NomadAITextIcon from '@/modules/shared/icons/NomadAIText.icon.vue';
-import { reactive, ref } from 'vue';
+import type { TabOption } from '@/modules/shared/types/tabs.types';
+import { computed, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
-const activeTab = ref<'signin' | 'signup'>('signin');
+const tabs = computed<TabOption[]>(() => [
+  { label: t('auth.tabs.signIn'), value: 'signIn' },
+  { label: t('auth.tabs.createAccount'), value: 'createAccount' },
+]);
+
+const activeTab = computed(() => {
+  const match = tabs.value.find((tab) => tab.value === route.name);
+  return match?.value ?? tabs.value[0]!.value;
+});
+
+const onTabChange = (value: string) => {
+  router.push({ name: value });
+};
 
 const form = reactive({
   email: '',
@@ -19,17 +36,17 @@ const errors = reactive({
   password: '',
 });
 
-function validate(): boolean {
+const validate = (): boolean => {
   errors.email = form.email ? '' : t('auth.errors.emailRequired');
   errors.password = form.password.length >= 6 ? '' : t('auth.errors.passwordMin');
   return !errors.email && !errors.password;
-}
+};
 
-function handleSubmit() {
+const handleSubmit = () => {
   if (!validate()) return;
-  // aquí iría la llamada a auth (composable useAuth, TanStack Query mutation, etc.)
+  // TODO:
   console.log('submit', { ...form });
-}
+};
 </script>
 
 <template>
@@ -41,28 +58,10 @@ function handleSubmit() {
     </div>
 
     <CardComponent>
-      <!-- AuthTabs.vue -->
-      <div class="tabs">
-        <button
-          type="button"
-          class="tab"
-          :class="{ 'tab--active': activeTab === 'signin' }"
-          @click="activeTab = 'signin'"
-        >
-          {{ t('auth.tabs.signIn') }}
-        </button>
-        <button
-          type="button"
-          class="tab"
-          :class="{ 'tab--active': activeTab === 'signup' }"
-          @click="activeTab = 'signup'"
-        >
-          {{ t('auth.tabs.createAccount') }}
-        </button>
-      </div>
+      <TabsComponent :options="tabs" :model-value="activeTab" @update:model-value="onTabChange" />
 
       <!-- SignInForm.vue -->
-      <form v-if="activeTab === 'signin'" class="form" @submit.prevent="handleSubmit">
+      <form class="form" @submit.prevent="handleSubmit">
         <!-- BaseInput.vue -->
         <div class="field">
           <div class="input-wrapper">
@@ -120,7 +119,7 @@ function handleSubmit() {
       </form>
 
       <!-- CreateAccountForm.vue -->
-      <form v-else class="form" @submit.prevent="handleSubmit">
+      <!-- <form class="form" @submit.prevent="handleSubmit">
         <div class="field">
           <div class="input-wrapper">
             <svg
@@ -164,7 +163,7 @@ function handleSubmit() {
         <button type="submit" class="submit-btn">
           {{ t('auth.form.createAccount') }}
         </button>
-      </form>
+      </form> -->
     </CardComponent>
   </main>
 </template>
@@ -185,37 +184,6 @@ function handleSubmit() {
 
 .logo svg {
   color: var(--color-logo);
-}
-
-/* Tabs */
-.tabs {
-  display: flex;
-  gap: 4px;
-  background: #eef1f4;
-  border-radius: 14px;
-  padding: 4px;
-  margin-bottom: 1.75rem;
-}
-
-.tab {
-  flex: 1;
-  padding: 0.7rem 0;
-  border: none;
-  background: transparent;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #6b7280;
-  cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
-}
-
-.tab--active {
-  background: #ffffff;
-  color: #0f6e56;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* Form */
