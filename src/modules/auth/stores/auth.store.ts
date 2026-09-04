@@ -4,11 +4,6 @@ import { signInAction } from '../actions';
 import { AuthStatusEnum, RoleEnum } from '../enums';
 import type { User } from '../interfaces';
 
-interface AuthStoreResponse {
-  ok: boolean;
-  message: string;
-}
-
 export const useAuthStore = defineStore('auth', () => {
   const authStatus = ref(AuthStatusEnum.CHECKING);
   const user = ref<User | undefined>();
@@ -20,35 +15,16 @@ export const useAuthStore = defineStore('auth', () => {
   }: {
     email: string;
     password: string;
-  }): Promise<AuthStoreResponse> => {
+  }): Promise<void> => {
     try {
-      const response = await signInAction(email, password);
+      const { user: userData, accessToken: token } = await signInAction(email, password);
 
-      if (!response.ok) {
-        logout();
-
-        return {
-          ok: false,
-          message: response.message,
-        };
-      }
-
-      user.value = response.user;
-      accessToken.value = response.accessToken;
+      user.value = userData;
+      accessToken.value = token;
       authStatus.value = AuthStatusEnum.AUTHENTICATED;
-
-      return {
-        ok: true,
-        message: 'Login con éxito',
-      };
     } catch (error) {
-      console.error(error);
       logout();
-
-      return {
-        ok: false,
-        message: 'Usuario/Contraseña no son correctos',
-      };
+      throw error;
     }
   };
 
@@ -56,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('token');
     authStatus.value = AuthStatusEnum.UNAUTHENTICATED;
     user.value = undefined;
-    accessToken.value = '';
+    accessToken.value = undefined;
 
     return false;
   };

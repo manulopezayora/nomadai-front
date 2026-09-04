@@ -3,15 +3,18 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth.store';
 
+import { ApiError } from '@/api/api-error';
 import { toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
 
 const { t } = useI18n();
 const authStore = useAuthStore();
+
+const isSubmitting = ref(false);
 
 const form = reactive({
   email: '',
@@ -33,14 +36,18 @@ const handleSubmit = async () => {
   // TODO: VAlidations
   // if (!validate()) return;
 
-  const response = await authStore.onSignIn({
-    email: form.email,
-    password: form.password,
-  });
+  isSubmitting.value = true;
 
-  if (!response.ok) {
-    toast.error(t(`api.${response.message}`));
-    return;
+  try {
+    await authStore.onSignIn({
+      email: form.email,
+      password: form.password,
+    });
+  } catch (error) {
+    const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
+    toast.error(t(`api.${code}`));
+  } finally {
+    isSubmitting.value = false;
   }
 };
 </script>
@@ -70,7 +77,7 @@ const handleSubmit = async () => {
 
     <a href="#" class="forgot-link">{{ t('auth.form.forgotPassword') }}</a>
 
-    <ButtonComponent type="submit" :loading="false" :disabled="false">
+    <ButtonComponent type="submit" :loading="isSubmitting">
       {{ t('auth.form.signIn') }}
     </ButtonComponent>
   </form>
