@@ -3,10 +3,11 @@ import type { RouteRecordRaw } from 'vue-router';
 
 export const authRoutes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: '/auth',
     name: 'auth',
     component: AuthLayout,
-    redirect: '/sign-in',
+    redirect: '/auth/sign-in',
+    meta: { guestOnly: true },
     children: [
       {
         path: 'sign-in',

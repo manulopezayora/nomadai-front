@@ -1,19 +1,19 @@
 <script setup lang="ts">
+import { ApiError } from '@/api/api-error';
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
 import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAuthStore } from '../stores/auth.store';
-
-import { ApiError } from '@/api/api-error';
+import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
 import { useSignInMutation } from '../queries/use-sign-in.mutation';
+import { useAuthStore } from '../stores/auth.store';
 
 const { t } = useI18n();
-// const router = useRouter();
+const router = useRouter();
 const authStore = useAuthStore();
 const { mutateAsync: signIn, isPending } = useSignInMutation();
 
@@ -40,7 +40,7 @@ const handleSubmit = async () => {
     const { user } = await signIn({ email: form.email, password: form.password });
     authStore.setSession(user);
     toast.success(t('auth.success.signIn'));
-    // router.push({ name: 'home' });
+    router.push({ name: 'trips' });
   } catch (error) {
     const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
     toast.error(t(`api.${code}`));

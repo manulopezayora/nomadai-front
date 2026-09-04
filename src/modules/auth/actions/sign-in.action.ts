@@ -1,12 +1,8 @@
 import { apiClient } from '@/api/nomadai-api';
-import type { AuthResponse, User } from '../interfaces';
+import type { User } from '../interfaces';
 
-interface SignInResult {
-  user: User;
-}
-
-export const signInAction = async (email: string, password: string): Promise<SignInResult> => {
-  const { data } = await apiClient.post<AuthResponse>('/auth/login', { email, password });
+export const signInAction = async (email: string, password: string): Promise<{ user: User }> => {
+  const { data } = await apiClient.post<{ user: User }>('/auth/login', { email, password });
 
   return { user: data.user };
 };
