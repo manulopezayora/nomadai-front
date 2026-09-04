@@ -27,14 +27,14 @@ export const signInAction = async (
     };
   } catch (error) {
     console.error(error);
-    // TODO:
-    if (isAxiosError(error) && error.response?.status === 401) {
+    // TODO: Create interceptor to handle errors globally
+    if (isAxiosError(error) && error.response?.data.code) {
       return {
         ok: false,
-        message: 'Usuario o contraseña incorrectos',
+        message: error.response.data.code,
       };
     }
 
-    throw new Error('No se pudo realizar la petición');
+    throw new Error('UNEXPECTED_ERROR');
   }
 };

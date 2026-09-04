@@ -1,0 +1,19 @@
+{
+  "AUTH_INVALID_CREDENTIALS": "Email o contraseña incorrectos",
+  "AUTH_ACCOUNT_DISABLED": "Cuenta desactivada",
+  "AUTH_EMAIL_ALREADY_REGISTERED": "Email ya registrado",
+  "VALIDATION_INVALID_EMAIL": "Formato de email inválido",
+  "VALIDATION_PASSWORD_REQUIRED": "Contraseña requerida",
+  "VALIDATION_INVALID_PARAMS": "Parámetros de entrada inválidos",
+  "TRIP_NOT_FOUND": "Viaje no encontrado",
+  "TRIP_FORBIDDEN": "No tienes permiso para este viaje",
+  "DAY_PLAN_NOT_FOUND": "Plan de día no encontrado",
+  "DAY_PLAN_FORBIDDEN": "Plan de día no pertenece al viaje",
+  "ACTIVITY_NOT_FOUND": "Actividad no encontrada",
+  "ACTIVITY_FORBIDDEN": "Actividad no pertenece al plan de día",
+  "USER_NOT_FOUND": "Usuario no encontrado",
+  "USER_FORBIDDEN": "Solo puedes editar tu propio perfil",
+  "USER_FORBIDDEN_ROLE_CHANGE": "Solo admins pueden cambiar rol/",
+  "INTERNAL_ERROR": "Error interno del servidor",
+  "UNEXPECTED_ERROR": "Error inesperado"
+}

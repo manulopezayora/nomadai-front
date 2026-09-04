@@ -7,6 +7,9 @@ import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth.store';
 
+import { toast } from 'vue-sonner';
+import 'vue-sonner/style.css';
+
 const { t } = useI18n();
 const authStore = useAuthStore();
 
@@ -30,12 +33,15 @@ const handleSubmit = async () => {
   // TODO: VAlidations
   // if (!validate()) return;
 
-  const ok = await authStore.onSignIn({
+  const response = await authStore.onSignIn({
     email: form.email,
     password: form.password,
   });
 
-  console.log('submit', { ...form });
+  if (!response.ok) {
+    toast.error(t(`api.${response.message}`));
+    return;
+  }
 };
 </script>
 <template>
