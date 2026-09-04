@@ -30,15 +30,18 @@ const onTabChange = (value: string) => {
 <template>
   <main class="container">
     <div class="logo">
-      <NomadAIIcon width="100px" />
-      <NomadAITextIcon />
+      <NomadAIIcon class="logo__icon" />
+      <NomadAITextIcon class="logo__text-icon" />
       <h2>{{ t('auth.login.welcome') }}</h2>
+      <h3>{{ t('auth.login.title') }}</h3>
     </div>
 
-    <CardComponent>
-      <TabsComponent :options="tabs" :model-value="activeTab" @update:model-value="onTabChange" />
-      <RouterView />
-    </CardComponent>
+    <div class="content">
+      <CardComponent>
+        <TabsComponent :options="tabs" :model-value="activeTab" @update:model-value="onTabChange" />
+        <RouterView />
+      </CardComponent>
+    </div>
   </main>
 </template>
 
@@ -48,7 +51,7 @@ const onTabChange = (value: string) => {
 }
 
 .logo {
-  margin: 80px 0;
+  margin: 20% 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -58,5 +61,59 @@ const onTabChange = (value: string) => {
 
 .logo svg {
   color: var(--color-logo);
+}
+
+.logo__icon {
+  width: 30%;
+}
+
+.logo__text-icon {
+  width: 60%;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+h3 {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .container {
+    display: flex;
+    padding: 0;
+    width: 100%;
+    height: 100dvh;
+  }
+
+  .logo {
+    background: var(--bg-gradient-primary);
+    color: var(--text-white);
+    flex: 1;
+    justify-content: center;
+    margin: 0;
+    gap: 10px;
+  }
+
+  .logo svg {
+    color: var(--text-white);
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    display: block;
+    font-size: 1.25rem;
+  }
+
+  .content {
+    flex: 1;
+    align-items: center;
+    padding: 15px;
+  }
 }
 </style>
