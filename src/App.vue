@@ -6,6 +6,7 @@ import { Toaster } from 'vue-sonner';
 <template>
   <Toaster richColors />
   <RouterView />
+  <VueQueryDevtools />
 </template>
 
 <style scoped></style>

@@ -3,18 +3,19 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth.store';
 
 import { ApiError } from '@/api/api-error';
 import { toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
+import { useSignInMutation } from '../queries/use-sign-in.mutation';
 
 const { t } = useI18n();
+// const router = useRouter();
 const authStore = useAuthStore();
-
-const isSubmitting = ref(false);
+const { mutateAsync: signIn, isPending } = useSignInMutation();
 
 const form = reactive({
   email: '',
@@ -26,28 +27,23 @@ const errors = reactive({
   password: '',
 });
 
-const validate = (): boolean => {
-  errors.email = form.email ? '' : t('auth.errors.emailRequired');
-  errors.password = form.password.length >= 6 ? '' : t('auth.errors.passwordMin');
-  return !errors.email && !errors.password;
-};
+// const validate = (): boolean => {
+//   errors.email = form.email ? '' : t('auth.errors.emailRequired');
+//   errors.password = form.password.length >= 6 ? '' : t('auth.errors.passwordMin');
+//   return !errors.email && !errors.password;
+// };
 
 const handleSubmit = async () => {
-  // TODO: VAlidations
   // if (!validate()) return;
 
-  isSubmitting.value = true;
-
   try {
-    await authStore.onSignIn({
-      email: form.email,
-      password: form.password,
-    });
+    const { user } = await signIn({ email: form.email, password: form.password });
+    authStore.setSession(user);
+    toast.success(t('auth.success.signIn'));
+    // router.push({ name: 'home' });
   } catch (error) {
     const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
     toast.error(t(`api.${code}`));
-  } finally {
-    isSubmitting.value = false;
   }
 };
 </script>
@@ -77,7 +73,7 @@ const handleSubmit = async () => {
 
     <a href="#" class="forgot-link">{{ t('auth.form.forgotPassword') }}</a>
 
-    <ButtonComponent type="submit" :loading="isSubmitting">
+    <ButtonComponent type="submit" :loading="isPending">
       {{ t('auth.form.signIn') }}
     </ButtonComponent>
   </form>
