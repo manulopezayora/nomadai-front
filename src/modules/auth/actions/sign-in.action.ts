@@ -1,4 +1,4 @@
-import { apiClient } from '@/api/nomadai.api';
+import { apiClient } from '@/api/nomadai-api';
 import type { AuthResponse, User } from '../interfaces';
 
 interface SignInResult {
