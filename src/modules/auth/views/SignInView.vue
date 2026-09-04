@@ -4,40 +4,36 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
-import { reactive } from 'vue';
+import { toTypedSchema } from '@vee-validate/zod';
+import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
 import { useSignInMutation } from '../queries/use-sign-in.mutation';
+import { type SignInFormValues, signInSchema } from '../schemas/sign-in.schema';
 import { useAuthStore } from '../stores/auth.store';
 
 const { t } = useI18n();
 const router = useRouter();
 const authStore = useAuthStore();
 const { mutateAsync: signIn, isPending } = useSignInMutation();
-
-const form = reactive({
-  email: '',
-  password: '',
+const { handleSubmit, errors, isSubmitting } = useForm<SignInFormValues>({
+  validationSchema: toTypedSchema(signInSchema),
+  initialValues: {
+    email: '',
+    password: '',
+  },
 });
 
-const errors = reactive({
-  email: '',
-  password: '',
-});
+const { value: email } = useField<string>('email');
+const { value: password } = useField<string>('password');
 
-// const validate = (): boolean => {
-//   errors.email = form.email ? '' : t('auth.errors.emailRequired');
-//   errors.password = form.password.length >= 6 ? '' : t('auth.errors.passwordMin');
-//   return !errors.email && !errors.password;
-// };
-
-const handleSubmit = async () => {
-  // if (!validate()) return;
-
+const onSubmit = handleSubmit(async (values) => {
+  console.log('Datos enviados:', values);
+  debugger;
   try {
-    const { user } = await signIn({ email: form.email, password: form.password });
+    const { user } = await signIn({ email: values.email, password: values.password });
     authStore.setSession(user);
     toast.success(t('auth.success.signIn'));
     router.push({ name: 'trips' });
@@ -45,12 +41,12 @@ const handleSubmit = async () => {
     const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
     toast.error(t(`api.${code}`));
   }
-};
+});
 </script>
 <template>
-  <form class="form" @submit.prevent="handleSubmit">
+  <form class="form" @submit.prevent="onSubmit">
     <InputTextComponent
-      v-model="form.email"
+      v-model="email"
       type="email"
       :placeholder="t('auth.form.email.label')"
       :error="errors.email"
@@ -61,7 +57,7 @@ const handleSubmit = async () => {
     </InputTextComponent>
 
     <InputTextComponent
-      v-model="form.password"
+      v-model="password"
       type="password"
       :placeholder="t('auth.form.password.label')"
       :error="errors.password"
@@ -73,38 +69,19 @@ const handleSubmit = async () => {
 
     <a href="#" class="forgot-link">{{ t('auth.form.forgotPassword') }}</a>
 
-    <ButtonComponent type="submit" :loading="isPending">
+    <ButtonComponent type="submit" :loading="isPending" :disabled="isSubmitting">
       {{ t('auth.form.signIn') }}
     </ButtonComponent>
   </form>
 </template>
 
 <style scoped>
-.container {
-  padding: 20px;
-}
-
-.logo {
-  margin: 80px 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.logo svg {
-  color: var(--color-logo);
-}
-
-/* Form */
 .form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-/* Forgot password */
 .forgot-link {
   align-self: flex-end;
   font-size: 0.85rem;

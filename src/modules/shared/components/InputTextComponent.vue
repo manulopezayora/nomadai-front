@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import type { InputTextType } from '../types/input-text.types';
 
 defineProps<{
@@ -11,6 +12,8 @@ defineProps<{
 defineEmits<{
   'update:modelValue': [value: string];
 }>();
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -28,7 +31,7 @@ defineEmits<{
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
     </div>
-    <p v-if="error" class="input__error">{{ error }}</p>
+    <p v-if="error" class="input__error">{{ t(error) }}</p>
   </div>
 </template>
 
@@ -79,7 +82,8 @@ defineEmits<{
   background: var(--glass-bg);
 }
 
-.input__field--error {
+.input__field--error,
+.input__field--error:focus {
   border-color: var(--error-color);
 }
 
