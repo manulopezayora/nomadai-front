@@ -3,12 +3,12 @@ import './assets/main.css';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import { createApp } from 'vue';
 
-import { queryClient } from './api/query-client.ts';
+import { queryClient } from './api/query-client';
 import App from './App.vue';
 import { i18n } from './i18n';
-import { checkStatusAction } from './modules/auth/actions/index.ts';
-import { useAuthStore } from './modules/auth/stores/auth.store.ts';
-import { pinia } from './pinia.ts';
+import { checkStatusAction } from './modules/auth/actions/index';
+import { useAuthStore } from './modules/auth/stores/auth.store';
+import { pinia } from './pinia';
 import router from './router';
 
 async function bootstrap() {
