@@ -30,13 +30,10 @@ const { value: email } = useField<string>('email');
 const { value: password } = useField<string>('password');
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log('Datos enviados:', values);
-  debugger;
   try {
     const { user } = await signIn({ email: values.email, password: values.password });
     authStore.setSession(user);
-    toast.success(t('auth.success.signIn'));
-    router.push({ name: 'trips' });
+    router.replace({ name: 'trips' });
   } catch (error) {
     const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
     toast.error(t(`api.${code}`));
