@@ -13,7 +13,7 @@
   "ACTIVITY_FORBIDDEN": "Actividad no pertenece al plan de día",
   "USER_NOT_FOUND": "Usuario no encontrado",
   "USER_FORBIDDEN": "Solo puedes editar tu propio perfil",
-  "USER_FORBIDDEN_ROLE_CHANGE": "Solo admins pueden cambiar rol/",
+  "USER_FORBIDDEN_ROLE_CHANGE": "Solo admins pueden cambiar rol",
   "INTERNAL_ERROR": "Error interno del servidor",
   "UNEXPECTED_ERROR": "Error inesperado"
 }
