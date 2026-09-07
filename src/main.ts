@@ -1,14 +1,34 @@
-import './assets/main.css'
+import './assets/main.css';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { VueQueryPlugin } from '@tanstack/vue-query';
+import { createApp } from 'vue';
 
-import App from './App.vue'
-import router from './router'
+import { queryClient } from './api/query-client';
+import App from './App.vue';
+import { i18n } from './i18n';
+import { checkStatusAction } from './modules/auth/actions/index';
+import { useAuthStore } from './modules/auth/stores/auth.store';
+import { pinia } from './pinia';
+import router from './router';
 
-const app = createApp(App)
+async function bootstrap() {
+  const app = createApp(App);
 
-app.use(createPinia())
-app.use(router)
+  app.use(pinia);
+  app.use(VueQueryPlugin, { queryClient });
+  app.use(i18n);
 
-app.mount('#app')
+  const authStore = useAuthStore();
+
+  try {
+    const { user } = await checkStatusAction();
+    authStore.setSession(user);
+  } catch {
+    authStore.clearSession();
+  }
+
+  app.use(router);
+  app.mount('#app');
+}
+
+bootstrap();

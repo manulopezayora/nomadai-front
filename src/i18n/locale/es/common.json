@@ -1,0 +1,9 @@
+{
+  "buttons": {
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio"
+  }
+}

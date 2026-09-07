@@ -1,0 +1,19 @@
+{
+  "AUTH_INVALID_CREDENTIALS": "Invalid email or password",
+  "AUTH_ACCOUNT_DISABLED": "Account disabled",
+  "AUTH_EMAIL_ALREADY_REGISTERED": "Email already registered",
+  "VALIDATION_INVALID_EMAIL": "Invalid email format",
+  "VALIDATION_PASSWORD_REQUIRED": "Password required",
+  "VALIDATION_INVALID_PARAMS": "Invalid input parameters",
+  "TRIP_NOT_FOUND": "Trip not found",
+  "TRIP_FORBIDDEN": "You don't have permission for this trip",
+  "DAY_PLAN_NOT_FOUND": "Day plan not found",
+  "DAY_PLAN_FORBIDDEN": "Day plan does not belong to the trip",
+  "ACTIVITY_NOT_FOUND": "Activity not found",
+  "ACTIVITY_FORBIDDEN": "Activity does not belong to the day plan",
+  "USER_NOT_FOUND": "User not found",
+  "USER_FORBIDDEN": "You can only edit your own profile",
+  "USER_FORBIDDEN_ROLE_CHANGE": "Only admins can change role",
+  "INTERNAL_ERROR": "Internal server error",
+  "UNEXPECTED_ERROR": "Unexpected error"
+}
