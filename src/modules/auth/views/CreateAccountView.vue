@@ -80,22 +80,14 @@ const onSubmit = handleSubmit(async (values) => {
       type="text"
       :placeholder="t('auth.form.firstName.label')"
       :error="errors.firstName"
-    >
-      <template #icon>
-        <EmailIcon />
-      </template>
-    </InputTextComponent>
+    />
 
     <InputTextComponent
       v-model="lastName"
       type="text"
       :placeholder="t('auth.form.lastName.label')"
       :error="errors.lastName"
-    >
-      <template #icon>
-        <EmailIcon />
-      </template>
-    </InputTextComponent>
+    />
 
     <ButtonComponent type="submit" :loading="isPending" :disabled="isSubmitting">
       {{ t('auth.form.createAccount') }}
