@@ -1,9 +1,6 @@
-<script setup lang="ts">
-import NomadAITextIcon from '@/modules/shared/icons/NomadAIText.icon.vue';
-</script>
+<script setup lang="ts"></script>
 <template>
   <footer class="footer">
-    <NomadAITextIcon :width="100" />
     <span>&copy; 2026 Manuel Lopez</span>
     <a
       class="footer__link"
