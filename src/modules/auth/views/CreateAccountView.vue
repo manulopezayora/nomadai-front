@@ -7,21 +7,17 @@ import LockIcon from '@/modules/shared/icons/LockIcon.vue';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
-import { useSignInMutation } from '../queries/use-sign-in.mutation';
+import { useCreateAccountMutation } from '../queries/use-create-account.mutation';
 import {
   type CreateAccountFormValues,
   createAccountSchema,
 } from '../schemas/create-account.schema';
-import { useAuthStore } from '../stores/auth.store';
 
 const { t } = useI18n();
-const router = useRouter();
-const authStore = useAuthStore();
-const { mutateAsync: signIn, isPending } = useSignInMutation();
-const { handleSubmit, errors, isSubmitting } = useForm<CreateAccountFormValues>({
+const { mutateAsync: createAccount, isPending } = useCreateAccountMutation();
+const { handleSubmit, errors, isSubmitting, resetForm } = useForm<CreateAccountFormValues>({
   validationSchema: toTypedSchema(createAccountSchema),
   initialValues: {
     email: '',
@@ -37,13 +33,17 @@ const { value: firstName } = useField<string>('firstName');
 const { value: lastName } = useField<string>('lastName');
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log('Datos enviados:', values);
-  debugger;
   try {
-    const { user } = await signIn({ email: values.email, password: values.password });
-    authStore.setSession(user);
-    toast.success(t('auth.success.createAccount'));
-    router.push({ name: 'signIn' });
+    const { user } = await createAccount({
+      email: values.email,
+      password: values.password,
+      name: values.firstName,
+      lastName: values.lastName,
+    });
+    toast.success(
+      t('auth.success.createAccount', { username: `${user.firstName} ${user.lastName}` }),
+    );
+    resetForm();
   } catch (error) {
     // TODO: Estandarizar en un utils
     const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
