@@ -1,3 +1,4 @@
+import router from '@/router';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { AuthStatusEnum, RoleEnum } from '../enums';
@@ -15,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
   const clearSession = () => {
     user.value = undefined;
     authStatus.value = AuthStatusEnum.UNAUTHENTICATED;
+    router.replace({ name: 'signIn' });
   };
 
   return {
@@ -24,6 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
     isChecking: computed(() => authStatus.value === AuthStatusEnum.CHECKING),
     isAuthenticated: computed(() => authStatus.value === AuthStatusEnum.AUTHENTICATED),
     isAdmin: computed(() => user.value?.role === RoleEnum.ADMIN),
+    fullName: computed(() => `${user.value?.firstName} ${user.value?.lastName}`),
 
     setSession,
     clearSession,

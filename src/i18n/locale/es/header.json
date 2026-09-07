@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "myTrips": "Mis viajes",
+    "toggleLanguage": "Español",
+    "userMenu": "Menú de usuario",
+    "profile": "Perfil de usuario",
+    "logout": "Cerrar sesión",
+    "toggleMenu": "Toggle menú"
+  }
+}
