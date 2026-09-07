@@ -3,23 +3,18 @@ import { ApiError } from '@/api/api-error.ts';
 import { useLogoutMutation } from '@/modules/auth/queries/use-logout.mutation.ts';
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
 import router from '@/router/index.ts';
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { toast } from 'vue-sonner';
 import NomadAITextIcon from '../icons/NomadAIText.icon.vue';
 import TranslationIcon from '../icons/TranslationIcon.vue';
-
-type ProfileOptions = {
-  label: string;
-  name: string;
-};
+import UserAvatar, { type DropdownOption } from './UserAvatar.vue';
 
 type NavbarItems = {
   label: string;
   url: string;
 };
 
-const profileOptions: ProfileOptions[] = [{ label: 'header.nav.profile', name: 'profile' }];
 const navbarItems: NavbarItems[] = [{ label: 'header.nav.myTrips', url: '/my-trips' }];
 
 const { t, locale } = useI18n({ useScope: 'global' });
@@ -28,24 +23,15 @@ const { mutateAsync: logout } = useLogoutMutation();
 
 const isMobileMenuOpen = ref(false);
 const isUserMenuOpen = ref(false);
-const userMenuRef = ref<HTMLElement | null>(null);
 
-const initials = computed(() =>
-  authStore.user?.firstName
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join(''),
-);
+const dropdownOptions = computed<DropdownOption[]>(() => [
+  { label: t('header.nav.profile'), action: 'profile' },
+  { label: t('header.nav.logout'), action: 'logout', danger: true },
+]);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
   isUserMenuOpen.value = false;
-};
-
-const toggleUserMenu = () => {
-  isUserMenuOpen.value = !isUserMenuOpen.value;
 };
 
 const toggleLocale = () => {
@@ -73,14 +59,10 @@ const onLogoutClick = async () => {
   }
 };
 
-const handleClickOutside = (event: MouseEvent) => {
-  if (userMenuRef.value && !userMenuRef.value.contains(event.target as Node)) {
-    isUserMenuOpen.value = false;
-  }
+const handleAvatarSelect = (action: string) => {
+  if (action === 'profile') onProfileOptions('profile');
+  if (action === 'logout') onLogoutClick();
 };
-
-onMounted(() => document.addEventListener('click', handleClickOutside));
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
 </script>
 
 <template>
@@ -116,42 +98,12 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
         </button>
 
         <div ref="userMenuRef" class="navbar-user">
-          <button
-            type="button"
-            class="navbar-avatar-btn"
-            :aria-label="t('header.nav.userMenu')"
-            @click.stop="toggleUserMenu"
-          >
-            <img
-              v-if="authStore.user?.avatarUrl"
-              :src="authStore.user.avatarUrl"
-              :alt="authStore.user?.email"
-              class="navbar-avatar-img"
-            />
-            <span v-else class="navbar-avatar-fallback">{{ initials }}</span>
-          </button>
-
-          <Transition name="fade">
-            <div v-if="isUserMenuOpen" class="navbar-dropdown">
-              <p class="navbar-dropdown-name">{{ authStore.fullName }}</p>
-              <div v-for="item in profileOptions" :key="item.name">
-                <button
-                  type="button"
-                  class="navbar-dropdown-item"
-                  @click="() => onProfileOptions(item.name)"
-                >
-                  {{ t(item.label) }}
-                </button>
-              </div>
-              <button
-                type="button"
-                class="navbar-dropdown-item navbar-dropdown-item--danger"
-                @click="onLogoutClick"
-              >
-                {{ t('header.nav.logout') }}
-              </button>
-            </div>
-          </Transition>
+          <UserAvatar
+            :size="36"
+            :options="dropdownOptions"
+            show-name-header
+            @select="handleAvatarSelect"
+          />
         </div>
 
         <!-- Hamburger (mobile only) -->
