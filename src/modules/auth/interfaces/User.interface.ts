@@ -4,4 +4,7 @@ export interface User {
   firstName: string;
   lastName: string;
   role: string;
+  isActive: boolean;
+  avatarUrl?: string;
+  fullName?: string;
 }

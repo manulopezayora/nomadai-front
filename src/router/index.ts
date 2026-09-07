@@ -1,6 +1,7 @@
 import { authRoutes } from '@/modules/auth/routes';
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
 import { tripRoutes } from '@/modules/trips/router';
+import { userRoutes } from '@/modules/users/router';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -8,6 +9,7 @@ const router = createRouter({
   routes: [
     ...authRoutes,
     ...tripRoutes,
+    ...userRoutes,
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
