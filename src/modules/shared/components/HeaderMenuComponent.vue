@@ -6,6 +6,7 @@ import router from '@/router/index.ts';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { toast } from 'vue-sonner';
+import { getAvatarUrl } from '../helpers/getAvatarUrl.helper.ts';
 import NomadAITextIcon from '../icons/NomadAIText.icon.vue';
 import TranslationIcon from '../icons/TranslationIcon.vue';
 import UserAvatar, { type DropdownOption } from './UserAvatar.vue';
@@ -28,6 +29,10 @@ const dropdownOptions = computed<DropdownOption[]>(() => [
   { label: t('header.nav.profile'), action: 'profile' },
   { label: t('header.nav.logout'), action: 'logout', danger: true },
 ]);
+
+const avatarUrl = computed(() =>
+  authStore.user?.avatarPublicId ? getAvatarUrl(authStore.user.avatarPublicId) : undefined,
+);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -101,6 +106,7 @@ const handleAvatarSelect = (action: string) => {
           <UserAvatar
             :size="36"
             :options="dropdownOptions"
+            :avatar-url="avatarUrl"
             show-name-header
             @select="handleAvatarSelect"
           />
