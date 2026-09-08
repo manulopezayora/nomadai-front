@@ -5,9 +5,9 @@
     "firstName": "First name",
     "lastName": "Last name",
     "email": "Email",
-    "isActive": "Active",
-    "yes": "Yes",
-    "no": "No",
+    "isActive": "Is active user?",
+    "active": "Active",
+    "inactive": "Inactive",
     "role": "Role",
     "admin": "Administrator",
     "user": "User"
