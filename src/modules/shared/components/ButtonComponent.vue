@@ -26,7 +26,7 @@ withDefaults(
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--field-border-radius);
   padding: 0.9rem 0;
   width: 100%;
   font-size: 0.95rem;

@@ -68,7 +68,7 @@ const { t } = useI18n();
   padding: 0.85rem;
   border: 1px solid var(--divider);
   background: var(--glass-bg);
-  border-radius: 12px;
+  border-radius: var(--field-border-radius);
   font-size: 0.9rem;
   color: var(--text-color);
   outline: none;
@@ -96,9 +96,6 @@ const { t } = useI18n();
 .input__field--disabled {
   border-color: var(--text-hint);
   background: var(--color-background-soft);
-}
-
-.input__field--disabled:hover {
   cursor: not-allowed;
 }
 
