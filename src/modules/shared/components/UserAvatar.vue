@@ -15,6 +15,7 @@ interface Props {
   options?: DropdownOption[];
   showNameHeader?: boolean;
   editable?: boolean;
+  avatarUrl?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,16 +24,18 @@ const props = withDefaults(defineProps<Props>(), {
   options: () => [],
   showNameHeader: false,
   editable: false,
+  avatarUrl: '',
 });
 
 const emit = defineEmits<{
   (e: 'select', action: string): void;
-  (e: 'change-photo'): void;
+  (e: 'change-photo', payload: { file: File }): void;
 }>();
 
 const authStore = useAuthStore();
 const isOpen = ref(false);
 const containerRef = ref<HTMLElement | null>(null);
+const fileInputRef = ref<HTMLInputElement | null>(null);
 
 const initials = computed(
   () =>
@@ -57,7 +60,21 @@ const handleOptionClick = (action: string) => {
 
 const handlePhotoClick = (event: Event) => {
   event.stopPropagation();
-  emit('change-photo');
+  fileInputRef.value?.click();
+};
+
+const handleFileChange = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    input.value = '';
+    return;
+  }
+
+  emit('change-photo', { file });
+  input.value = '';
 };
 
 const handleClickOutside = (event: MouseEvent) => {
@@ -73,12 +90,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 <template>
   <div ref="containerRef" class="avatar-container" :style="{ '--avatar-size': `${size}px` }">
     <div class="avatar-wrapper" @click="toggleMenu">
-      <img
-        v-if="authStore.user?.avatarUrl"
-        :src="authStore.user.avatarUrl"
-        :alt="authStore.user?.email"
-        class="avatar-img"
-      />
+      <img v-if="avatarUrl" :src="avatarUrl" :alt="authStore.user?.firstName" class="avatar-img" />
       <span v-else class="avatar-fallback">{{ initials }}</span>
 
       <button
@@ -90,6 +102,15 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
       >
         <PhotoIcon />
       </button>
+
+      <input
+        ref="fileInputRef"
+        type="file"
+        accept="image/*"
+        class="avatar-file-input"
+        @click.stop
+        @change="handleFileChange"
+      />
     </div>
 
     <!-- Dropdown -->
@@ -177,6 +198,10 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 .avatar-edit-btn:hover {
   background-color: #0d9488;
+}
+
+.avatar-file-input {
+  display: none;
 }
 
 /* Dropdown */

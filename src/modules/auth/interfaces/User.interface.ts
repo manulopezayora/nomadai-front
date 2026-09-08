@@ -5,6 +5,6 @@ export interface User {
   lastName: string;
   role: string;
   isActive: boolean;
-  avatarUrl?: string;
+  avatarPublicId?: string;
   fullName?: string;
 }
