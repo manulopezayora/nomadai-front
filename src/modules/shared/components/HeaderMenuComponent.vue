@@ -48,7 +48,7 @@ const toggleLocale = () => {
 
 const onProfileOptions = (name: string) => {
   isUserMenuOpen.value = false;
-  router.push({ name });
+  router.push({ name, params: { userId: authStore.user?.id } });
 };
 
 const onLogoutClick = async () => {
