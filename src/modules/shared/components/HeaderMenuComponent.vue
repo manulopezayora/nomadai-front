@@ -2,10 +2,10 @@
 import { ApiError } from '@/api/api-error.ts';
 import { useLogoutMutation } from '@/modules/auth/queries/use-logout.mutation.ts';
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
+import { toast } from '@/modules/shared/services/toast';
 import router from '@/router/index.ts';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { toast } from 'vue-sonner';
 import { getAvatarUrl } from '../helpers/getAvatarUrl.helper.ts';
 import NomadAITextIcon from '../icons/NomadAIText.icon.vue';
 import TranslationIcon from '../icons/TranslationIcon.vue';

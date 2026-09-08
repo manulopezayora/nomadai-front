@@ -9,11 +9,11 @@ import StatusSwitchComponent from '@/modules/shared/components/StatusSwitchCompo
 import UserAvatar from '@/modules/shared/components/UserAvatar.vue';
 import { getAvatarUrl } from '@/modules/shared/helpers/getAvatarUrl.helper';
 import { useUploadAvatarMutation } from '@/modules/shared/queries/use-upload-avatar.mutation';
+import { toast } from '@/modules/shared/services/toast';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { computed, ref, shallowRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { toast } from 'vue-sonner';
 import type { UserToSave } from '../interfaces/UserToSave.interface';
 import { useUpdateUserMutation } from '../queries/use-update-user.mutation';
 import { updateUserSchema, type UpdateUserFormValues } from '../schemas/update-user.schema';

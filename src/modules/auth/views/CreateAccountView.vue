@@ -4,10 +4,10 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
+import { toast } from '@/modules/shared/services/toast';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
-import { toast } from 'vue-sonner';
 import { useCreateAccountMutation } from '../queries/use-create-account.mutation';
 import {
   type CreateAccountFormValues,
