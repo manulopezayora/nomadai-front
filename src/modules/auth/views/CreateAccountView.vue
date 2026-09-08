@@ -8,7 +8,6 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
 import { toast } from 'vue-sonner';
-import 'vue-sonner/style.css';
 import { useCreateAccountMutation } from '../queries/use-create-account.mutation';
 import {
   type CreateAccountFormValues,

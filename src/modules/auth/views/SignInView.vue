@@ -9,7 +9,6 @@ import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
-import 'vue-sonner/style.css';
 import { useSignInMutation } from '../queries/use-sign-in.mutation';
 import { type SignInFormValues, signInSchema } from '../schemas/sign-in.schema';
 import { useAuthStore } from '../stores/auth.store';
