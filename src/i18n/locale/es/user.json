@@ -1,4 +1,20 @@
 {
   "editProfile": "Editar Perfil",
-  "editProfileDescription": "Actualiza tus detalles personales aquí."
+  "editProfileDescription": "Actualiza tus detalles personales aquí.",
+  "form": {
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Email",
+    "isActive": "Activo",
+    "yes": "Si",
+    "no": "No",
+    "role": "Role",
+    "admin": "Administrador",
+    "user": "Usuario"
+  },
+  "errors": {
+    "firstNameMin": "El nombre debe tener al menos 3 caracteres",
+    "lastNameMin": "El apellido debe tener al menos 2 caracteres",
+    "urlNotValid": "La url no es válida"
+  }
 }
