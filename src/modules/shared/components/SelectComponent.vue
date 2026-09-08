@@ -170,6 +170,12 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   transition: border-color 0.15s ease;
 }
 
+.select-wrapper.is-disabled .select-trigger {
+  border-color: var(--text-hint);
+  background: var(--color-background-soft);
+  cursor: not-allowed;
+}
+
 .is-placeholder {
   color: var(--text-hint);
 }
