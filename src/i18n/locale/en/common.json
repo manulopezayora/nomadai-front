@@ -1,4 +1,5 @@
 {
+  "saveSuccess": "Changes saved",
   "buttons": {
     "save": "Save",
     "cancel": "Cancel"

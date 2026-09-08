@@ -1,0 +1,20 @@
+{
+  "editProfile": "Edit Profile",
+  "editProfileDescription": "Update your personal details here.",
+  "form": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "isActive": "Is active user?",
+    "active": "Active",
+    "inactive": "Inactive",
+    "role": "Role",
+    "admin": "Administrator",
+    "user": "User"
+  },
+  "errors": {
+    "firstNameMin": "First name must be at least 3 characters",
+    "lastNameMin": "Last name must be at least 2 characters",
+    "urlNotValid": "URL is not valid"
+  }
+}

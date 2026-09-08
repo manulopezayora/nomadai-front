@@ -7,6 +7,7 @@ defineProps<{
   placeholder?: string;
   type?: InputTextType;
   error?: string;
+  disabled?: boolean;
 }>();
 
 defineEmits<{
@@ -26,8 +27,13 @@ const { t } = useI18n();
         :type="type ?? 'text'"
         :placeholder="placeholder"
         :value="modelValue"
+        :disabled="disabled"
         class="input__field"
-        :class="{ 'input__field--with-icon': $slots.icon, 'input__field--error': error }"
+        :class="{
+          'input__field--with-icon': $slots.icon,
+          'input__field--error': error,
+          'input__field--disabled': disabled,
+        }"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
     </div>
@@ -62,7 +68,7 @@ const { t } = useI18n();
   padding: 0.85rem;
   border: 1px solid var(--divider);
   background: var(--glass-bg);
-  border-radius: 12px;
+  border-radius: var(--field-border-radius);
   font-size: 0.9rem;
   color: var(--text-color);
   outline: none;
@@ -85,6 +91,12 @@ const { t } = useI18n();
 .input__field--error,
 .input__field--error:focus {
   border-color: var(--error-color);
+}
+
+.input__field--disabled {
+  border-color: var(--text-hint);
+  background: var(--color-background-soft);
+  cursor: not-allowed;
 }
 
 .input__error {

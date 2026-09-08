@@ -15,8 +15,9 @@ export const userRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/users/views/UserListView.vue'),
       },
       {
-        path: 'profile',
+        path: 'profile/:userId',
         name: 'profile',
+        props: true,
         component: () => import('@/modules/users/views/UserProfileView.vue'),
       },
     ],
