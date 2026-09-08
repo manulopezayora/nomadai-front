@@ -28,7 +28,7 @@ const props = defineProps({
 const { t } = useI18n();
 const authStore = useAuthStore();
 
-const { mutateAsync: uploadAvatar } = useUploadAvatarMutation();
+const { mutateAsync: uploadAvatar, isPending: isPendingAvatar } = useUploadAvatarMutation();
 const { mutateAsync: updateUser, isPending } = useUpdateUserMutation();
 
 const { handleSubmit, errors, isSubmitting, setFieldValue } = useForm<UpdateUserFormValues>({
@@ -50,10 +50,10 @@ const { value: role } = useField<string>('role');
 const { value: isActive } = useField<boolean>('isActive');
 
 const formDataRef = shallowRef<FormData | null>(null);
+const avatarUrlTmp = ref<string>('');
 
-const avatarUrl = ref<string>('');
-const getAvatar = computed(() =>
-  authStore.user?.avatarPublicId ? getAvatarUrl(authStore.user?.avatarPublicId) : avatarUrl.value,
+const getAvatar = computed(
+  () => avatarUrlTmp.value || getAvatarUrl(authStore.user?.avatarPublicId ?? ''),
 );
 const roleOptions = computed(() =>
   Object.keys(RoleEnum).map((key) => ({
@@ -70,7 +70,9 @@ const mapperToUpdateUser = (user: UpdateUserFormValues, avatarId: string): UserT
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    const avatarId = await (formDataRef.value ? uploadAvatarToCloudinary(formDataRef.value) : '');
+    const avatarId = await (formDataRef.value
+      ? uploadAvatarToCloudinary(formDataRef.value)
+      : (authStore.user?.avatarPublicId ?? ''));
 
     setFieldValue('avatarPublicId', avatarId);
 
@@ -81,7 +83,8 @@ const onSubmit = handleSubmit(async (values) => {
     });
 
     authStore.setSession(user);
-    avatarUrl.value = '';
+    avatarUrlTmp.value = '';
+    formDataRef.value = null;
 
     toast.success(t('common.saveSuccess'));
   } catch (error) {
@@ -95,13 +98,8 @@ const onChangePhoto = async ({ file }: { file: File }) => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-
   formDataRef.value = formData;
-
-  if (authStore.user) {
-    const temporalUrl = URL.createObjectURL(file);
-    avatarUrl.value = temporalUrl;
-  }
+  avatarUrlTmp.value = URL.createObjectURL(file);
 };
 
 const uploadAvatarToCloudinary = async (formData: FormData) => {
@@ -135,7 +133,7 @@ const onRoleChange = (value: string | number | null) => {
         v-model="firstName"
         type="text"
         :placeholder="t('user.form.firstName')"
-        :disabled="isPending"
+        :disabled="isPending || isPendingAvatar"
         :error="errors.firstName"
       />
 
@@ -143,7 +141,7 @@ const onRoleChange = (value: string | number | null) => {
         v-model="lastName"
         type="text"
         :placeholder="t('user.form.lastName')"
-        :disabled="isPending"
+        :disabled="isPending || isPendingAvatar"
         :error="errors.lastName"
       />
     </section>
@@ -175,7 +173,11 @@ const onRoleChange = (value: string | number | null) => {
     </section>
 
     <section class="form-row">
-      <ButtonComponent type="submit" :loading="isPending" :disabled="isSubmitting">
+      <ButtonComponent
+        type="submit"
+        :loading="isPending || isPendingAvatar"
+        :disabled="isSubmitting"
+      >
         {{ t('common.buttons.save') }}
       </ButtonComponent>
     </section>
