@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router';
+
 withDefaults(
   defineProps<{
+    to?: RouteLocationRaw;
     type: 'submit' | 'button' | 'reset';
     loading?: boolean;
     disabled?: boolean;
@@ -14,7 +17,14 @@ withDefaults(
 </script>
 
 <template>
-  <button :type="type" class="button" :disabled="disabled || loading">
+  <RouterLink v-if="to" :to="to" custom v-slot="{ navigate }">
+    <button :type="type" class="button" :disabled="disabled || loading" @click="navigate">
+      <span v-if="loading" class="button__spinner" />
+      <slot v-else />
+    </button>
+  </RouterLink>
+
+  <button v-else :type="type" class="button" :disabled="disabled || loading">
     <span v-if="loading" class="button__spinner" />
     <slot v-else />
   </button>
@@ -25,6 +35,7 @@ withDefaults(
   display: flex;
   align-items: center;
   justify-content: center;
+  column-gap: 5px;
   border: none;
   border-radius: var(--field-border-radius);
   padding: 0.9rem 0;
