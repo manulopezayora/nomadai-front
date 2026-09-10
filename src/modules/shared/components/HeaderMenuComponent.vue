@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ApiError } from '@/api/api-error.ts';
 import { useLogoutMutation } from '@/modules/auth/queries/use-logout.mutation.ts';
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
-import { toast } from '@/modules/shared/services/toast';
 import router from '@/router/index.ts';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useShowError } from '../composable/useShowError.ts';
 import { getAvatarUrl } from '../helpers/getAvatarUrl.helper.ts';
 import NomadAITextIcon from '../icons/NomadAIText.icon.vue';
 import TranslationIcon from '../icons/TranslationIcon.vue';
@@ -19,6 +18,7 @@ type NavbarItems = {
 const navbarItems: NavbarItems[] = [{ label: 'header.nav.myTrips', url: '/my-trips' }];
 
 const { t, locale } = useI18n({ useScope: 'global' });
+const { showError } = useShowError();
 const authStore = useAuthStore();
 const { mutateAsync: logout } = useLogoutMutation();
 
@@ -58,9 +58,7 @@ const onLogoutClick = async () => {
     await logout();
     authStore.clearSession();
   } catch (error) {
-    // TODO: Estandarizar en un utils
-    const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
-    toast.error(t(`api.${code}`));
+    showError(error);
   }
 };
 

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ApiError } from '@/api/api-error';
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
+import { useShowError } from '@/modules/shared/composable/useShowError';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
-import { toast } from '@/modules/shared/services/toast';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +13,7 @@ import { type SignInFormValues, signInSchema } from '../schemas/sign-in.schema';
 import { useAuthStore } from '../stores/auth.store';
 
 const { t } = useI18n();
+const { showError } = useShowError();
 const router = useRouter();
 const authStore = useAuthStore();
 const { mutateAsync: signIn, isPending } = useSignInMutation();
@@ -34,8 +34,7 @@ const onSubmit = handleSubmit(async (values) => {
     authStore.setSession(user);
     router.replace({ name: 'trips' });
   } catch (error) {
-    const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
-    toast.error(t(`api.${code}`));
+    showError(error);
   }
 });
 </script>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ApiError } from '@/api/api-error';
 import { RoleEnum } from '@/modules/auth/enums';
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
@@ -7,6 +6,7 @@ import InputTextComponent from '@/modules/shared/components/InputTextComponent.v
 import SelectComponent from '@/modules/shared/components/SelectComponent.vue';
 import StatusSwitchComponent from '@/modules/shared/components/StatusSwitchComponent.vue';
 import UserAvatar from '@/modules/shared/components/UserAvatar.vue';
+import { useShowError } from '@/modules/shared/composable/useShowError';
 import { getAvatarUrl } from '@/modules/shared/helpers/getAvatarUrl.helper';
 import { useUploadAvatarMutation } from '@/modules/shared/queries/use-upload-avatar.mutation';
 import { toast } from '@/modules/shared/services/toast';
@@ -27,6 +27,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const authStore = useAuthStore();
+const { showError } = useShowError();
 
 const { mutateAsync: uploadAvatar, isPending: isPendingAvatar } = useUploadAvatarMutation();
 const { mutateAsync: updateUser, isPending } = useUpdateUserMutation();
@@ -88,9 +89,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     toast.success(t('common.saveSuccess'));
   } catch (error) {
-    // TODO: Estandarizar en un utils
-    const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
-    toast.error(t(`api.${code}`));
+    showError(error);
   }
 });
 
