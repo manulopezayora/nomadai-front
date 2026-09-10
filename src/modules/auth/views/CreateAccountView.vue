@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ApiError } from '@/api/api-error';
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import InputTextComponent from '@/modules/shared/components/InputTextComponent.vue';
+import { useShowError } from '@/modules/shared/composable/useShowError';
 import EmailIcon from '@/modules/shared/icons/EmailIcon.vue';
 import LockIcon from '@/modules/shared/icons/LockIcon.vue';
 import { toast } from '@/modules/shared/services/toast';
@@ -15,6 +15,7 @@ import {
 } from '../schemas/create-account.schema';
 
 const { t } = useI18n();
+const { showError } = useShowError();
 const { mutateAsync: createAccount, isPending } = useCreateAccountMutation();
 const { handleSubmit, errors, isSubmitting, resetForm } = useForm<CreateAccountFormValues>({
   validationSchema: toTypedSchema(createAccountSchema),
@@ -44,9 +45,7 @@ const onSubmit = handleSubmit(async (values) => {
     );
     resetForm();
   } catch (error) {
-    // TODO: Estandarizar en un utils
-    const code = error instanceof ApiError ? error.code : 'UNEXPECTED_ERROR';
-    toast.error(t(`api.${code}`));
+    showError(error);
   }
 });
 </script>
