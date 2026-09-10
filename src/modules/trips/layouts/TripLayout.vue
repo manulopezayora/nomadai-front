@@ -1,10 +1,17 @@
 <template>
-  <div>
-    <h1>Trips</h1>
+  <section class="trips-layout">
     <RouterView />
-  </div>
+  </section>
 </template>
 
-<script setup lang="ts"></script>
+<style scoped>
+.trips-layout {
+  padding: 0 40px;
+}
 
-<style scoped></style>
+@media (min-width: 768px) {
+  .trips-layout {
+    padding: 0 80px;
+  }
+}
+</style>

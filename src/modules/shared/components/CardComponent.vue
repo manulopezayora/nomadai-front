@@ -1,11 +1,11 @@
 <template>
-  <div class="auth-card">
+  <div class="card">
     <slot />
   </div>
 </template>
 
 <style scoped>
-.auth-card {
+.card {
   width: 100%;
   max-width: 420px;
   background: var(--glass-bg);
