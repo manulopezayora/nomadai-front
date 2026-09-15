@@ -14,6 +14,11 @@ export const tripRoutes: RouteRecordRaw[] = [
         name: 'myTrips',
         component: () => import('@/modules/trips/views/MyTripsView.vue'),
       },
+      {
+        path: 'new-trip',
+        name: 'newTrip',
+        component: () => import('@/modules/trips/views/NewTripView.vue'),
+      },
     ],
   },
 ];

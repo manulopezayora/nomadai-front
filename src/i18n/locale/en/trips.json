@@ -3,5 +3,9 @@
   "subtitle": "Your upcoming adventures",
   "newTrip": "New Trip",
   "noContentTitle": "You don't have any trips yet",
-  "noContentText": "Start planning your next adventure with the help of your AI co-pilot and enjoy itineraries designed with your wellbeing in mind."
+  "noContentText": "Start planning your next adventure with the help of your AI co-pilot and enjoy itineraries designed with your wellbeing in mind.",
+  "whereToNext": "Where to next?",
+  "newTripDescription": "Your co-pilot for the modern horizon.",
+  "NewTripPlaceholder": "Tell me about your dream trip (e.g. \"10 days in Japan, culture and relax\")",
+  "generateMyItinerary": "Generate My Itinerary"
 }

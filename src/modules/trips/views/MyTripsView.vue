@@ -16,12 +16,12 @@ const { t } = useI18n();
         <h2 class="my-trips-header__subtitle">{{ t('trips.subtitle') }}</h2>
       </div>
 
-      <FloatButtonComponent class="new-trip-float-button">
+      <FloatButtonComponent class="new-trip-float-button" :to="{ name: 'newTrip' }">
         <PlusIcon />
       </FloatButtonComponent>
 
       <div>
-        <ButtonComponent type="button" class="new-trip-button">
+        <ButtonComponent type="button" class="new-trip-button" :to="{ name: 'newTrip' }">
           <PlusIcon />
           {{ t('trips.newTrip') }}
         </ButtonComponent>
@@ -37,7 +37,7 @@ const { t } = useI18n();
             <NoResultIcon class="no-content__icon" />
             <h3 class="no-content__title">{{ t('trips.noContentTitle') }}</h3>
             <p class="no-content__text">{{ t('trips.noContentText') }}</p>
-            <ButtonComponent type="button">
+            <ButtonComponent type="button" :to="{ name: 'newTrip' }">
               <PlusIcon />
               {{ t('trips.newTrip') }}
             </ButtonComponent>
