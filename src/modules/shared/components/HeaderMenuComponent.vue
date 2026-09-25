@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useLogoutMutation } from '@/modules/auth/queries/use-logout.mutation.ts';
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
-import router from '@/router/index.ts';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useShowError } from '../composable/useShowError.ts';
 import { getAvatarUrl } from '../helpers/getAvatarUrl.helper.ts';
 import NomadAITextIcon from '../icons/NomadAIText.icon.vue';
@@ -18,6 +18,7 @@ type NavbarItems = {
 const navbarItems: NavbarItems[] = [{ label: 'header.nav.myTrips', url: '/my-trips' }];
 
 const { t, locale } = useI18n({ useScope: 'global' });
+const router = useRouter();
 const { showError } = useShowError();
 const authStore = useAuthStore();
 const { mutateAsync: logout } = useLogoutMutation();

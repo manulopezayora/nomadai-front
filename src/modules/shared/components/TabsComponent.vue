@@ -65,7 +65,6 @@ watch(activeIndex, () => nextTick(updateIndicator));
   background: var(--color-background-soft);
   border-radius: 14px;
   padding: 4px;
-  margin-bottom: 1.75rem;
 }
 
 .tabs__indicator {

@@ -3,7 +3,7 @@ export interface Trip {
   destination: string;
   startDate: Date;
   endDate: Date;
-  budget: null;
+  budget: number;
   travelerCount: number;
   interests: string[];
   travelStyle: string;

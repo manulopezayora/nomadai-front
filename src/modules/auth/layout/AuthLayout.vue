@@ -38,7 +38,12 @@ const onTabChange = (value: string) => {
 
     <div class="content">
       <CardComponent>
-        <TabsComponent :options="tabs" :model-value="activeTab" @update:model-value="onTabChange" />
+        <TabsComponent
+          class="tabs"
+          :options="tabs"
+          :model-value="activeTab"
+          @update:model-value="onTabChange"
+        />
         <RouterView />
       </CardComponent>
     </div>
@@ -74,6 +79,10 @@ const onTabChange = (value: string) => {
 .content {
   display: flex;
   justify-content: center;
+}
+
+.tabs {
+  margin-bottom: 1.75rem;
 }
 
 h3 {
