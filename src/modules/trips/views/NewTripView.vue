@@ -5,15 +5,17 @@ import TextAreaComponent from '@/modules/shared/components/TextAreaComponent.vue
 import { useShowError } from '@/modules/shared/composable/useShowError';
 import GenerateIcon from '@/modules/shared/icons/GenerateIcon.vue';
 import NomadAIIcon from '@/modules/shared/icons/NomadAI.icon.vue';
-import router from '@/router';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import type { Trip } from '../interfaces';
 import { useGenerateMutation } from '../queries/use-generate.mutation';
 import { generateSchema, type GenerateValues } from '../schemas/generate.schema';
 import { useTripStore } from '../stores/trip.store';
 
 const { t } = useI18n();
+const router = useRouter();
 const { showError } = useShowError();
 const tripStore = useTripStore();
 const { mutateAsync: generateTrip, isPending } = useGenerateMutation();
@@ -28,9 +30,21 @@ const { value: prompt } = useField<string>('prompt');
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    const trip = await generateTrip({ prompt: values.prompt });
+    debugger;
+    const fakeTrip: Trip = {
+      title: '10 Days in Japan',
+      destination: 'Japan',
+      startDate: new Date('2026-10-01'),
+      endDate: new Date('2026-10-10'),
+      budget: 5000,
+      travelerCount: 2,
+      interests: ['culture', 'food'],
+      travelStyle: 'mid',
+    };
+    // const trip = await generateTrip({ prompt: values.prompt });
+    // tripStore.setTrip(trip);
+    tripStore.setTrip(fakeTrip);
     router.push({ name: 'tripDetail' });
-    tripStore.setTrip(trip);
     resetForm();
   } catch (error) {
     showError(error);

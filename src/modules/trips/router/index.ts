@@ -31,6 +31,16 @@ export const tripRoutes: RouteRecordRaw[] = [
             name: 'itinerary',
             component: () => import('@/modules/trips/views/ItineraryView.vue'),
           },
+          {
+            path: 'flights',
+            name: 'flights',
+            component: () => import('@/modules/trips/views/FlightsView.vue'),
+          },
+          {
+            path: 'hotels',
+            name: 'hotels',
+            component: () => import('@/modules/trips/views/HotelsView.vue'),
+          },
         ],
       },
     ],
