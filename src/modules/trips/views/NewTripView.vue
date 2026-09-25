@@ -28,8 +28,8 @@ const { value: prompt } = useField<string>('prompt');
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    router.push({ name: 'tripDetail' });
     const trip = await generateTrip({ prompt: values.prompt });
+    router.push({ name: 'tripDetail' });
     tripStore.setTrip(trip);
     resetForm();
   } catch (error) {
