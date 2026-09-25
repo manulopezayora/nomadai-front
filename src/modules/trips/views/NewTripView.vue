@@ -5,21 +5,20 @@ import TextAreaComponent from '@/modules/shared/components/TextAreaComponent.vue
 import { useShowError } from '@/modules/shared/composable/useShowError';
 import GenerateIcon from '@/modules/shared/icons/GenerateIcon.vue';
 import NomadAIIcon from '@/modules/shared/icons/NomadAI.icon.vue';
+import router from '@/router';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
-import { toast } from 'vue-sonner';
-import { useGenerateItineraryMutation } from '../queries/use-generate-itinerary.mutation';
-import {
-  generateItinerarySchema,
-  type GenerateItineraryValues,
-} from '../schemas/generate-itinerary-schema';
+import { useGenerateMutation } from '../queries/use-generate.mutation';
+import { generateSchema, type GenerateValues } from '../schemas/generate.schema';
+import { useTripStore } from '../stores/trip.store';
 
 const { t } = useI18n();
 const { showError } = useShowError();
-const { mutateAsync: generateItinerary, isPending } = useGenerateItineraryMutation();
-const { handleSubmit, errors, isSubmitting, resetForm } = useForm<GenerateItineraryValues>({
-  validationSchema: toTypedSchema(generateItinerarySchema),
+const tripStore = useTripStore();
+const { mutateAsync: generateTrip, isPending } = useGenerateMutation();
+const { handleSubmit, errors, isSubmitting, resetForm } = useForm<GenerateValues>({
+  validationSchema: toTypedSchema(generateSchema),
   initialValues: {
     prompt: '',
   },
@@ -29,10 +28,9 @@ const { value: prompt } = useField<string>('prompt');
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    debugger;
-    const { id } = await generateItinerary({ prompt: values.prompt });
-
-    toast.success(t('auth.success.createAccount'));
+    router.push({ name: 'tripDetail' });
+    const trip = await generateTrip({ prompt: values.prompt });
+    tripStore.setTrip(trip);
     resetForm();
   } catch (error) {
     showError(error);
@@ -53,6 +51,7 @@ const onSubmit = handleSubmit(async (values) => {
             v-model="prompt"
             type="text"
             :placeholder="t('trips.NewTripPlaceholder')"
+            :disabled="isSubmitting"
             :error="errors.prompt"
           />
           <ButtonComponent type="submit" :loading="isPending" :disabled="isSubmitting">
