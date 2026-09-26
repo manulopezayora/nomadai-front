@@ -7,5 +7,13 @@
   "whereToNext": "¿A dónde ir ahora?",
   "newTripDescription": "Tu copiloto hacia el horizonte moderno.",
   "NewTripPlaceholder": "Cuéntame cuál es el viaje de tus sueños (p. ej., \"10 días en Japón, cultura y relax\")",
-  "generateMyItinerary": "Generar mi itinerario"
+  "generateMyItinerary": "Generar mi itinerario",
+  "nav": {
+    "itinerary": "Itinerario",
+    "flights": "Vuelos",
+    "hotels": "Hoteles"
+  },
+  "actions": {
+    "saveTrip": "Guardar Viaje"
+  }
 }

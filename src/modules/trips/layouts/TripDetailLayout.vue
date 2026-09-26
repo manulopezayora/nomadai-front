@@ -11,9 +11,9 @@ const route = useRoute();
 const router = useRouter();
 
 const tabs = computed<TabOption[]>(() => [
-  { label: t('Itinerary'), value: 'itinerary' },
-  { label: t('Flights'), value: 'flights' },
-  { label: t('Hotels'), value: 'hotels' },
+  { label: t('trips.nav.itinerary'), value: 'itinerary' },
+  { label: t('trips.nav.flights'), value: 'flights' },
+  { label: t('trips.nav.hotels'), value: 'hotels' },
 ]);
 
 const activeTab = computed(() => {
@@ -37,7 +37,7 @@ const onTabChange = (value: string) => {
       <RouterView />
     </div>
     <ButtonComponent type="button" class="save-trip-button">
-      {{ t('trips.saveTrip') }}
+      {{ t('trips.actions.saveTrip') }}
     </ButtonComponent>
   </div>
 </template>
