@@ -13,9 +13,15 @@ import UserAvatar, { type DropdownOption } from './UserAvatar.vue';
 type NavbarItems = {
   label: string;
   url: string;
+  show: boolean;
 };
 
-const navbarItems: NavbarItems[] = [{ label: 'header.nav.myTrips', url: '/my-trips' }];
+const navbarItems: NavbarItems[] = [
+  { label: 'header.nav.myTrips', url: '/my-trips', show: true },
+  { label: 'header.nav.newTrip', url: '/new-trip', show: true },
+  { label: 'header.nav.allTrips', url: '/all-trips', show: false },
+  { label: 'header.nav.users', url: '/users', show: false },
+];
 
 const { t, locale } = useI18n({ useScope: 'global' });
 const router = useRouter();
@@ -81,6 +87,7 @@ const handleAvatarSelect = (action: string) => {
         <RouterLink
           v-for="item in navbarItems"
           :key="item.url"
+          v-show="item.show"
           :to="item.url"
           class="navbar-link"
           active-class="navbar-link--active"
@@ -139,6 +146,7 @@ const handleAvatarSelect = (action: string) => {
       <nav v-if="isMobileMenuOpen" class="navbar-menu navbar-menu--mobile">
         <RouterLink
           v-for="item in navbarItems"
+          v-show="item.show"
           :key="item.url"
           :to="item.url"
           class="navbar-link navbar-link--mobile"

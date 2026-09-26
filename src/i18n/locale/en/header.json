@@ -1,6 +1,9 @@
 {
   "nav": {
     "myTrips": "My Trips",
+    "newTrip": "Create Trip",
+    "allTrips": "All Trips",
+    "users": "Users",
     "toggleLanguage": "English",
     "userMenu": "User menu",
     "profile": "User profile",

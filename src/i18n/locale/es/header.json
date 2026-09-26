@@ -1,6 +1,9 @@
 {
   "nav": {
     "myTrips": "Mis viajes",
+    "newTrip": "Crear viaje",
+    "allTrips": "Todos los viajes",
+    "users": "Usuarios",
     "toggleLanguage": "Español",
     "userMenu": "Menú de usuario",
     "profile": "Perfil de usuario",
